@@ -64,3 +64,23 @@ The previous build used absolute / paths, so double-clicking index.html showed a
 - In Authentication > URL Configuration, set Site URL to `https://vendarides.netlify.app` and allow `https://vendarides.netlify.app/**` as a redirect.
 - Test both desktop and mobile. Hard-refresh if an installed PWA still shows the older version.
 - This is not an audited production release; driver verification, privacy/terms, booking lifecycle and security still require testing.
+
+
+## Administrator console (new)
+
+- Visit `/admin.html` or use the low-visibility **Staff access** footer link.
+- Admin sign-in uses the existing Supabase email/password authentication. No public admin signup exists.
+- Backend admin permissions are enforced using trusted Supabase `auth.users.raw_app_meta_data.vendarides_role = "admin"`. Do **not** set this in user metadata or client JavaScript.
+- Database migration: `sql/002_admin.sql` (already applied to the connected VendaRides Supabase project).
+- To designate the FIRST administrator, identify the verified account email in Supabase Authentication → Users, and grant the role via a trusted database/admin operation. Do not guess an account or promote everyone. Example for a **verified, exact email** (replace placeholder):
+
+```sql
+update auth.users
+set raw_app_meta_data = coalesce(raw_app_meta_data,'{}'::jsonb) || '{"vendarides_role":"admin"}'::jsonb
+where email = 'EXACT-ADMIN-EMAIL-HERE';
+```
+
+- After the grant, sign out and sign in again to refresh the JWT.
+- The console reviews drivers, vehicles, trips, bookings, and incident reports; it can approve/revoke drivers and vehicles and writes an audit log.
+- Driver/vehicle verification requires manual review of applicable licences, roadworthiness, insurance, and operating permits. The console does not yet provide secure document uploads or an automated verification service.
+- No service-role or secret keys belong in the website files.
