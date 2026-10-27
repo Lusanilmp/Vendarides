@@ -52,3 +52,15 @@ This is a **functional foundation**, not a legally or operationally certified pr
 
 ## Opening the website locally (important)
 The previous build used absolute / paths, so double-clicking index.html showed an unstyled page. All site asset paths are now relative. For full JavaScript functionality, serve the site over HTTP because browser security blocks ES module imports on file://. On Windows double-click START-WEBSITE.bat (requires Python), or run `python -m http.server 8000` inside this directory and visit http://localhost:8000. For production upload the CONTENTS of this folder to Netlify. Do not upload the parent folder as publish root. External Supabase JS dependency requires internet.
+
+
+## October 2026 dashboard and email design update
+
+- Dashboard is now a dedicated full-screen application mode at `/#account`, separate from the marketing landing sections.
+- Signing in opens the dashboard. Verified returning sessions also open the dashboard.
+- The dashboard contains navigation, Font Awesome icons, guided onboarding and a back-to-top control.
+- Upload the complete updated folder to Netlify to deploy. Service-worker cache updated to v2.
+- **Email branding requires a manual Supabase dashboard step:** Open Authentication > Email Templates > Confirm signup, switch to the HTML/source editor, and paste the entire contents of `confirmation-email.html`. Save, then send a test signup to an address you control. This file is NOT automatically activated in Supabase.
+- In Authentication > URL Configuration, set Site URL to `https://vendarides.netlify.app` and allow `https://vendarides.netlify.app/**` as a redirect.
+- Test both desktop and mobile. Hard-refresh if an installed PWA still shows the older version.
+- This is not an audited production release; driver verification, privacy/terms, booking lifecycle and security still require testing.
