@@ -25,3 +25,7 @@
 [functions]
   directory = "functions"
   node_bundler = "esbuild"
+
+[build.environment]
+  # These values are already public in the browser client; private keys stay scanned.
+  SECRETS_SCAN_OMIT_KEYS = "VR_SUPABASE_URL,VR_SUPABASE_PUBLIC_KEY,VR_VAPID_PUBLIC_KEY"

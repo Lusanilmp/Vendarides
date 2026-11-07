@@ -1,4 +1,4 @@
-import {initCommunity} from './community.js?v=20261108b';
+import {initCommunity} from './community.js?v=20261108c';
 import {SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,CONFIGURED} from './config.js';
 import {createClient} from 'https://esm.sh/@supabase/supabase-js@2.49.4';
 // Capture the callback before Supabase consumes the URL fragment.

@@ -16,3 +16,10 @@ test('a slow earlier search cannot replace the latest ride selection',async()=>{
  resolvers[1]({data:[row('latest')],error:null});const newest=await fast;resolvers[0]({data:[row('stale')],error:null});const older=await slow;
  assert.equal(newest[0].id,'latest');assert.equal(older[0].id,'latest');assert.match(target.innerHTML,/latest/);assert.doesNotMatch(target.innerHTML,/stale/);
 });
+for(const expired of [false,true])test(expired?'push worker removes expired subscriptions without reporting delivery':'push worker delivers and settles queued notifications',async()=>{
+ const webpush=require('web-push');const {dispatchPush}=await import('./push-core.mjs');const keys=webpush.generateVAPIDKeys();const values={VR_SUPABASE_URL:'https://test.supabase.co',VR_SUPABASE_PUBLIC_KEY:'public-test',VR_PUSH_WORKER_TOKEN:'dummy-test-token',VR_VAPID_PUBLIC_KEY:keys.publicKey,VR_VAPID_PRIVATE_KEY:keys.privateKey};
+ const originalFetch=global.fetch,originalSend=webpush.sendNotification;let sent=0,settlement;
+ global.fetch=async(url,init)=>{const body=JSON.parse(init.body);assert.equal(body.p_token,'dummy-test-token');if(url.endsWith('claim_ride_push'))return Response.json([{id:'notification-test',title:'Test update',body:'Test body',kind:'message',subscriptions:[{id:'subscription-test',endpoint:'https://fcm.googleapis.com/test',keys:{p256dh:'test',auth:'test'}}]}]);settlement=body;return Response.json(null)};
+ webpush.sendNotification=async(_subscription,body)=>{sent++;assert.equal(JSON.parse(body).title,'Test update');if(expired)throw {statusCode:410};return {statusCode:201}};
+ try{assert.equal(await dispatchPush({get:key=>values[key]}),expired?0:1);assert.equal(sent,1);assert.equal(settlement.p_sent,!expired);assert.deepEqual(settlement.p_expired,expired?['subscription-test']:[])}finally{global.fetch=originalFetch;webpush.sendNotification=originalSend}
+});

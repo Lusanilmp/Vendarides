@@ -95,7 +95,8 @@ For a live check, register with an inbox permitted by the configured email provi
 - Only accepted-booking participants can chat. Phone and WhatsApp details are shared explicitly by the owner in chat.
 - RLS-protected notifications, watched routes, driver request alerts and pickup-status updates. Accepted matching bookings close open ride requests.
 - Realtime subscriptions for trips, bookings, requests, notifications and messages. Departure reminders are deduplicated.
-- Background Web Push worker and service worker handlers are implemented but remain disabled pending approval of the private Netlify credential transfer. `PUSH_DELIVERY_READY` is false and the worker RPC grants to anon are revoked. To activate, install the prepared environment variables privately, grant the worker token gateway execute to anon only, set the readiness flag true and redeploy. Never publish the private VAPID key or worker token.
+- Background Web Push is enabled. The production Netlify environment stores the private VAPID key and restricted worker token as secrets. The public application key is intentionally included in push-config.js. Push requires explicit user permission and a supported browser; iPhone/iPad users must add the app to the Home Screen first. The worker runs immediately after relevant mutations with a scheduled fallback every minute. Delivery timing remains controlled by the browser, operating system and network. Never publish private credentials.
+
 - Browser-supported install prompts open from the Install button. iPhone installation still follows the browser's Add to Home Screen flow.
 - `npm test` runs the frontend/security-helper regressions. `community-db.test.sql` runs rollback-only RLS/lifecycle checks with existing fixture identities. It must be run as the database administrator and never partially committed.
 - `npm run build` creates a static allowlisted dist directory, excluding backend code, tests, SQL, and dependencies.
