@@ -2,3 +2,4 @@
 @media(prefers-reduced-motion:reduce){.search-orbit>span,.mini-search{animation:none!important}}
 
 .recognition-prompt{display:flex;align-items:center;justify-content:space-between;gap:16px;border:1px solid #d6e7dc;background:#f5fbf6;border-radius:14px;padding:18px;margin-bottom:22px}.recognition-prompt[hidden]{display:none}.recognition-prompt p{font-size:13px;color:#627085;margin:6px 0 0}@media(max-width:600px){.recognition-prompt{align-items:flex-start;flex-direction:column}}
+@media(max-width:700px){.topbar{gap:8px;padding:0 12px}.topactions #installBtn{display:inline-flex!important}.topactions .btn{min-height:44px;padding:8px 9px;font-size:10px}.topactions .notification-button{min-width:40px}.topactions{gap:4px}.topbar .brand{gap:8px;font-size:16px}.topbar .brand small{font-size:7px;letter-spacing:1.6px}.topbar .brandmark{width:32px;height:34px}}

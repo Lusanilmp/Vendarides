@@ -33,7 +33,7 @@ This is a **functional foundation**, not a legally or operationally certified pr
 - PWA manifest, offline fallback, responsive layout, fare and earnings estimator
 
 ## Not yet implemented
-- Admin dashboard, secure document verification/upload, actual driver and passenger contact exchange, WhatsApp deep links, real-time location tracking, parcel acceptance/delivery, payment collection, push notifications, in-app messages, realtime booking subscriptions, route-specific fare management, full Tshivenda translations, regulatory approvals, full automated tests.
+- Secure document verification/upload, real-time location tracking, parcel acceptance/delivery, payment collection, route-specific fare management, full Tshivenda translations, regulatory approvals, and full automated browser coverage. Background push awaits credential activation.
 - Current pricing RPC uses standard full-route fares; it does not distinguish shorter trips or provide gate detour quotes.
 - Fuel/toll/maintenance figures in the calculator are editable **examples**, not current verified prices.
 - Driver onboarding is gated for safety. Do not approve a driver without appropriate compliance checks.
@@ -88,7 +88,7 @@ where email = 'EXACT-ADMIN-EMAIL-HERE';
 ## Authentication regression checks
 Run `node --test auth-flow.test.cjs`. These mocked checks cover confirmation callbacks, expired links, local sign-out, signup redirect options, login, existing sessions, and preserving the password-reset route. They do not verify email delivery.
 
-For a live check, register with an inbox permitted by the configured email provider, open the new confirmation email, verify the existing sign-in form appears with “Email confirmed”, then sign in and verify the dashboard and sign-out. Supabase currently uses its default email service; unrestricted recipient delivery requires custom SMTP. Previously issued links may contain the old localhost destination; use a fresh confirmation email for testing.
+For a live check, register with an inbox permitted by the configured email provider, open the new confirmation email, verify the existing sign-in form appears with “Email confirmed”, then sign in and verify the dashboard and sign-out. Custom HOSTAFRICA SMTP is configured for vendarides@xabahygienesolutions.co.za. Previously issued links may contain the old localhost destination; use a fresh confirmation email for testing.
 
 ## Community, photos and journey communication (November 2026)
 - Private JPEG photo storage, user-controlled community profiles, driver/vehicle cards and pickup recognition prompts.
