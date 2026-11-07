@@ -2,7 +2,7 @@
 VendaRides has been connected to project `xzveiqkhiwddxmouknqx`. The database schema, RLS policies and booking RPCs were applied to this project on 27 October 2026. **Do not run `sql/001_schema.sql` again on this project** because its policies/functions have already been installed.
 
 ### Remaining steps
-1. Configure Supabase Auth site URL and redirect URLs for your actual Netlify domain.
+1. Supabase Auth Site URL is `https://vendarides.netlify.app/`. Allowed return URLs are that root URL, `https://vendarides.netlify.app/?auth=confirm`, and `https://vendarides.netlify.app/#account`. Keep these settings aligned with `EMAIL_CONFIRMATION_URL` in `JavaScript.js`.
 2. Deploy this folder to Netlify and test sign-up, email verification, profile creation, ride requests, driver approval, trip publishing, booking request, acceptance, cancellation, and review with separate test users.
 3. Complete administrator verification and transport/legal compliance before allowing paid trips.
 4. Do not approve a driver or vehicle without checks.
@@ -84,3 +84,8 @@ where email = 'EXACT-ADMIN-EMAIL-HERE';
 - The console reviews drivers, vehicles, trips, bookings, and incident reports; it can approve/revoke drivers and vehicles and writes an audit log.
 - Driver/vehicle verification requires manual review of applicable licences, roadworthiness, insurance, and operating permits. The console does not yet provide secure document uploads or an automated verification service.
 - No service-role or secret keys belong in the website files.
+
+## Authentication regression checks
+Run `node --test auth-flow.test.cjs`. These mocked checks cover confirmation callbacks, expired links, local sign-out, signup redirect options, login, existing sessions, and preserving the password-reset route. They do not verify email delivery.
+
+For a live check, register with an inbox permitted by the configured email provider, open the new confirmation email, verify the existing sign-in form appears with “Email confirmed”, then sign in and verify the dashboard and sign-out. Supabase currently uses its default email service; unrestricted recipient delivery requires custom SMTP. Previously issued links may contain the old localhost destination; use a fresh confirmation email for testing.
