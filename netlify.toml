@@ -1,5 +1,6 @@
 [build]
-  publish = "."
+  publish = "dist"
+  command = "npm run build"
 [[headers]]
   for = "/*"
   [headers.values]
@@ -20,3 +21,7 @@
   to = "/index.html"
   status = 200
   force = false
+
+[functions]
+  directory = "functions"
+  node_bundler = "esbuild"
